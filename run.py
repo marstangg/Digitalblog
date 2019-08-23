@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, url_for
-
+from forms import RegistrationForm, LoginForm
 # adding in functionality to access the operating system
 import os
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = '37d9b26f4a0cda72818c4c6d4e3a9641'
 
 posts = [
     {
@@ -27,25 +29,17 @@ def home():
 
 @app.route('/about')
 def about():
-    return render_template("about.html")
+    return render_template("about.html",title='About')
 
-@app.route('/greet_the_person', methods=['POST'])
-def process_form():
-    print(request.form)
-    n = request.form.get('person_name')
-    age = request.form.get('age')
-    return "Hi, {}, welcome to the website!".format(n)
+@app.route('/register')
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
 
-
-# @app.route('/hello', methods=['GET', 'POST'])
-# def foobar():
-#     if request.method == 'GET':
-#         return render_template("hello.html")
-#     elif request.method == 'POST':
-#         print(request.form)
-#         n = request.form.get('person_name')
-#         age = request.form.get('age')
-#         return "Hi, {}, welcome to the website".format(n)
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
