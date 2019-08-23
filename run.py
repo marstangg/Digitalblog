@@ -6,8 +6,12 @@ import os
 app = Flask(__name__)
 
 @app.route('/home')
-def foobar():
+def home():
     return render_template("home.html")
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 @app.route('/greet_the_person', methods=['POST'])
 def process_form():
