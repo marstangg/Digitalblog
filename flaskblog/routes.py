@@ -7,25 +7,11 @@ from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, Post
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
-posts = [
-    {
-        'author': 'Marcus Tang',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'August 28, 2019'
-    },
-    {
-        'author': 'John Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'August 29, 2019'
-    }
-]
-
 
 @app.route("/")
 @app.route("/home")
 def home():
+    posts = Post.query.all()
     return render_template('home.html', posts=posts)
 
 
@@ -104,6 +90,7 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
