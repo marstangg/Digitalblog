@@ -7,18 +7,20 @@ from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, Post
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
-
+# home page route
 @app.route("/")
 @app.route("/home")
 def home():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.paginate(page=page, per_page=3)
     return render_template('home.html', posts=posts)
 
-
+# route for the about page
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
 
+# route for registering new user
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -34,7 +36,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-
+# route for login
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -50,13 +52,13 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-
+# route for logging out
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
+# profile picture
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -70,7 +72,7 @@ def save_picture(form_picture):
 
     return picture_fn
 
-
+# route for anything to do with users account
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
@@ -91,7 +93,7 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-
+# route for creating and posting new posts
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -105,13 +107,13 @@ def new_post():
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 
-
+# this gives the posts by users an ID
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
-
+# editing and updating posts
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -131,7 +133,7 @@ def update_post(post_id):
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
 
-
+# deleting of posts  
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):

@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<!--page intro and blog image -->
 <div class="jumbotron jumbotron-fluid" style="margin-top: -25px;height: auto%;background: #fff;font-family: sans-serif;">
   <div class="container">
     <h1 class="display-5 text-center" style="font-family: Oswald;font-weight: bold">DEV PIE</h1>
@@ -10,8 +11,8 @@
   <img src="/static/images/devpie.jpg" alt="background_image" style="width:100%">
 </div>
 
-
-{% for post in posts %}
+ <!--blog post section-->
+{% for post in posts.items %}
         <article class="media content-section ">
           <img class="rounded-circle article-img " src="{{ url_for( 'static', filename='profile_pics/' + post.author.image_file) }} ">
           <div class="media-body ">
@@ -23,5 +24,17 @@
             <p class="article-content ">{{ post.content }}</p>
           </div>
         </article>
+{% endfor %}
+ <!--pagination code-->
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if posts.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
     {% endfor %}
 {% endblock content %}
