@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="jumbotron jumbotron-fluid" style="margin-top: -25px;height: 60%;background: #fff;font-family: sans-serif;">
+<div class="jumbotron jumbotron-fluid" style="margin-top: -25px;height: auto%;background: #fff;font-family: sans-serif;">
   <div class="container">
     <h1 class="display-5 text-center" style="font-family: Oswald;font-weight: bold">DEV PIE</h1>
     <p class="lead text-center"> A place where developers can share and enjoy.
-      <span class="badge badge-dark">Register to share your slice!</span>
+      <span class="badge badge-dark">Register <a href="{{ url_for('register') }}"></a> to share your slice!</span>
     </p>
   </div>
   <img src="/static/images/devpie.jpg" alt="background_image" style="width:100%">
