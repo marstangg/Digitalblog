@@ -1,8 +1,8 @@
 DEVPIE - https://devpie.herokuapp.com/home
 
 To create a microblog community and space for developers to gather and share about their development or issues they are facing or faced not just at work but throughout their journey. 
-UX
 
+UX
 This website will be aimed at users of similar communities (in this case Jr developers) to expand their network, to update on the latest news , discuss on emerging trends and share about their journey/problems/anything actually in a space where most of the people are going through similar situations. Users make use of the site to share and benefit from having convenient access to the information provided by all other members.
 Features
 
